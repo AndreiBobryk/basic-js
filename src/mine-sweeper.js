@@ -1,3 +1,4 @@
+const { afterEach } = require('mocha');
 const { NotImplementedError } = require('../extensions/index.js');
 
 /**
@@ -23,9 +24,33 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper(matrix) {
+ 
+  let result = matrix.slice().map((arr) => arr.map((el) => 0));
+
+  matrix.forEach((arr, indexX) => {
+    arr.forEach((el, indexY) => {
+      if (el) {
+        console.log(indexX);
+        console.log(indexY);
+        if (result[indexX][indexY + 1] >= 0) result[indexX][indexY + 1] += 1;
+        if (result[indexX][indexY - 1] >= 0) result[indexX][indexY - 1] += 1;
+        if (result[indexX - 1] && result[indexX - 1][indexY] >= 0)
+          result[indexX - 1][indexY] += 1;
+        if (result[indexX - 1] && result[indexX - 1][indexY + 1] >= 0)
+          result[indexX - 1][indexY + 1] += 1;
+        if (result[indexX - 1] && result[indexX - 1][indexY - 1] >= 0)
+          result[indexX - 1][indexY - 1] += 1;
+        if (result[indexX + 1] && result[indexX + 1][indexY] >= 0)
+          result[indexX + 1][indexY] += 1;
+        if (result[indexX + 1] && result[indexX + 1][indexY + 1] >= 0)
+          result[indexX + 1][indexY + 1] += 1;
+        if (result[indexX + 1] && result[indexX + 1][indexY - 1] >= 0)
+          result[indexX + 1][indexY - 1] += 1;
+      }
+    });
+  });
+  return result;
 }
 
 module.exports = {

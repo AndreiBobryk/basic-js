@@ -15,7 +15,7 @@ const { NotImplementedError } = require("../extensions/index.js");
  *
  */
 function countCats(input) {
-  throw new NotImplementedError("Not implemented");
+
   let count = 0;
   input.forEach((arr) => {
     arr.forEach((item) => {
