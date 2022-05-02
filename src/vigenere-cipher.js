@@ -19,14 +19,69 @@ const { NotImplementedError } = require('../extensions/index.js');
  * reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse') => '!NWAD TA KCATTA'
  * 
  */
-class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+ class VigenereCipheringMachine {
+  constructor (state = true) {
+      this.state = state
+      this.alf = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(str, key) {
+    if (!str || !key ) {
+      throw new Error('Incorrect arguments!')
+    }
+
+           str = str.toUpperCase()
+           key = key.toUpperCase()
+         
+          let res = [];
+          let count = 0;
+          for (let i=0; i<str.length; i++) {
+              if (this.alf.indexOf(str[i]) !== -1) {
+                  let sum = ((this.alf.indexOf(str[i]) + this.alf.indexOf(key[count % key.length])) % 26)
+                  res.push( this.alf[sum] )
+                  count++
+
+              } else {
+                  res.push(str[i])
+              }
+
+          }
+        
+
+          return this.state ? res.join('') : res.reverse('').join('');
+
+     
+   
+  }
+  decrypt(str, key) {
+    if (!str || !key ) {
+      throw new Error('Incorrect arguments!')
+    }
+
+      str = str.toUpperCase()
+      key = key.toUpperCase()
+    
+     let res = [];
+     let count = 0;
+     for (let i=0; i<str.length; i++) {
+         if (this.alf.indexOf(str[i]) !== -1) {
+             let sum = this.alf.indexOf(str[i]) - this.alf.indexOf(key[count % key.length]);
+          
+             let index = sum < 0 ? 26 + sum : sum;
+            
+           
+             res.push( this.alf[index] )
+             count++
+
+         } else {
+             res.push(str[i])
+         }
+
+     }
+   
+
+     return this.state ? res.join('') : res.reverse('').join('');
+  
+
   }
 }
 
